@@ -1,6 +1,5 @@
 package de.muellerml.handball4all.results.league
 
-import io.kotlintest.matchers.collections.shouldBeSameSizeAs
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.haveSize
 import io.kotlintest.should
@@ -42,7 +41,7 @@ class LeagueParserTest : AnnotationSpec() {
     @Test
     fun testCurrentGames() = runBlocking {
         parser.currentGames(48941).run {
-            currentGames shouldHaveSize 0
+            currentGames shouldHaveSize 3
             futureGames shouldHaveSize 3
         }
     }
