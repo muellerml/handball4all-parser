@@ -4,7 +4,7 @@ import org.apache.pdfbox.pdmodel.PDPage
 import java.time.Duration
 import java.time.LocalTime
 
-interface H4aEventParser {
+internal interface H4aEventParser {
     fun parseEvents(page: PDPage): Iterable<ParsedEvent<*>>
 }
 

@@ -24,7 +24,7 @@ internal class H4aReportParserImplTest : AnnotationSpec() {
 
     @Test
     fun readRemoteReportSuccessfully() {
-        val url = URL("http://spo.handball4all.de/misc/sboPublicReports.php?sGID=880729")
+        val url = URL("https://spo.handball4all.de/misc/sboPublicReports.php?sGID=880729")
         val result = parser.parseReport(url.openStream())
         result.homeTeam shouldBe "CVJM Möglingen"
         result.awayTeam shouldBe "HSG Sulzbach-Murrhardt"

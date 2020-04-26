@@ -1,14 +1,7 @@
-package de.muellerml.handball4all
+package de.muellerml.handball4all.api
 
 import de.muellerml.handball4all.results.league.LeagueParser
 import de.muellerml.handball4all.results.league.ParsedGame
-import io.ktor.util.KtorExperimentalAPI
-
-class ParserFactory {
-
- fun forLeague(leagueId: Int) : LeagueFactory = LeagueFactoryImpl(leagueId = leagueId)
-
-}
 
 interface LeagueFactory {
     suspend fun allGames(): List<ParsedGame>

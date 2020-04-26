@@ -2,7 +2,7 @@ package de.muellerml.handball4all.util
 
 import com.fasterxml.jackson.databind.JsonMappingException
 
-suspend fun <T> detectBreakingApiChanges(lambda: suspend () -> T) : T {
+internal suspend fun <T> detectBreakingApiChanges(lambda: suspend () -> T) : T {
     return runCatching { lambda() }.getOrElse {
         when(it) {
             is JsonMappingException -> throw PossibleApiBreakException(it)
@@ -11,4 +11,4 @@ suspend fun <T> detectBreakingApiChanges(lambda: suspend () -> T) : T {
     }
 }
 
-class PossibleApiBreakException(e: Throwable) : RuntimeException(e)
+class PossibleApiBreakException(e: Throwable) : RuntimeException("Detected possible API change.", e)
