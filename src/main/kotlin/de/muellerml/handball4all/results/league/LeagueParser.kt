@@ -12,9 +12,8 @@ import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 private const val ALL_GAMES_URL = "https://spo.handball4all.de/service/if_g_json.php?ca=1&cl={leagueId}&cmd=ps&og=3"
@@ -95,7 +94,7 @@ data class ParsedGame(
         val homePoints: Int?,
         val awayGoals: Int?,
         val awayPoints: Int?,
-        val gameTime: Instant?,
+        val gameTime: LocalDateTime?,
         val gymNumber: Int?,
         val reportId: String?,
         val referees: List<String>?
@@ -131,17 +130,19 @@ data class H4AGame(val gNo: String,
     )
 }
 
-private fun Pair<String?, String?>.toInstant(): Instant? {
+private fun Pair<String?, String?>.toInstant(): LocalDateTime? {
     val (date, time) = this
     return when {
-        date != null && date != "" && time != null && time != "" -> ZonedDateTime.of(
+        date != null && date != "" && time != null && time != "" ->
+            LocalDateTime.of(
+                        LocalDate.parse(date, DateTimeFormatter.ofPattern("dd.MM.yy")),
+                        LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"))
+            )
+        date != null && date != "" ->
+            LocalDateTime.of(
                 LocalDate.parse(date, DateTimeFormatter.ofPattern("dd.MM.yy")),
-                LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")),
-                ZoneId.of("Europe/Berlin")
-        ).toInstant()
-        date != null && date != "" -> ZonedDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd.MM.yy"))
-                .atStartOfDay(), ZoneId.of("Europe/Berlin"))
-                .toInstant()
+                LocalTime.MIDNIGHT
+            )
         else -> null
     }
 
